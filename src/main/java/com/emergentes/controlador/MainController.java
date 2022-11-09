@@ -4,10 +4,11 @@
  */
 package com.emergentes.controlador;
 
-import com.emergentes.modelo.Persona;
+import com.emergentes.modelo.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,19 +29,19 @@ public class MainController extends HttpServlet {
         HttpSession ses=request.getSession();
         int id,pos;
         
-        if(ses.getAttribute("listaper")==null){
-        ArrayList<Persona>listaux=new ArrayList<Persona>();
-        ses.setAttribute("listaper", listaux);
+        if(ses.getAttribute("listaprod")==null){
+        ArrayList<Producto>listaux=new ArrayList<Producto>();
+        ses.setAttribute("listaprod", listaux);
         }
-        ArrayList<Persona>lista=(ArrayList<Persona>)ses.getAttribute("listaper");
+        ArrayList<Producto>lista=(ArrayList<Producto>)ses.getAttribute("listaprod");
         
         String op=request.getParameter("op");
         String opcion=(op!=null)? op:"view";
-        Persona obj1=new Persona();
+        Producto obj1=new Producto();
         
         switch(opcion){
             case"nuevo":
-                request.setAttribute("miPersona",obj1);
+                request.setAttribute("miProducto",obj1);
                 request.getRequestDispatcher("editar.jsp").forward(request, response);
                 break;
                 
@@ -48,7 +49,7 @@ public class MainController extends HttpServlet {
                 id=Integer.parseInt(request.getParameter("id"));
                 pos=buscarIndice(request,id);
                 obj1=lista.get(pos);
-                request.setAttribute("miPersona", obj1);
+                request.setAttribute("miProducto", obj1);
                 request.getRequestDispatcher("editar.jsp").forward(request, response);
                 break;
             case "eliminar":
@@ -58,7 +59,6 @@ public class MainController extends HttpServlet {
                 response.sendRedirect("index.jsp");
                 break;
             case "view":
-                //ses.setAttribute("listaper", lista);
                 response.sendRedirect("index.jsp");
                 break;
         }
@@ -70,14 +70,16 @@ public class MainController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession ses=request.getSession();
-        ArrayList<Persona>lista=(ArrayList<Persona>)ses.getAttribute("listaper");
-        Persona obj1=new Persona();
+        ArrayList<Producto>lista=(ArrayList<Producto>)ses.getAttribute("listaprod");
+        Producto obj1=new Producto();
         int idt;
         
         obj1.setId(Integer.parseInt(request.getParameter("id")));
         obj1.setDescripcion(request.getParameter("descripcion"));
         obj1.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
         obj1.setPrecio(Double.parseDouble(request.getParameter("precio")));
+        obj1.setCategoria(request.getParameter("categoria"));
+        
         
         idt=obj1.getId();
         if(idt==0){
@@ -93,17 +95,17 @@ public class MainController extends HttpServlet {
         
     private int ultimoId(HttpServletRequest request){
         HttpSession ses=request.getSession();
-        ArrayList<Persona>lista=(ArrayList<Persona>)ses.getAttribute("listaper");
+        ArrayList<Producto>lista=(ArrayList<Producto>)ses.getAttribute("listaprod");
         
         int idaux=0;
-        for(Persona item:lista){
+        for(Producto item:lista){
             idaux=item.getId();
         }
         return idaux+1;    
     }
     private int buscarIndice(HttpServletRequest request,int id){
         HttpSession ses=request.getSession();
-        ArrayList<Persona>lista=(ArrayList<Persona>)ses.getAttribute("listaper");
+        ArrayList<Producto>lista=(ArrayList<Producto>)ses.getAttribute("listaprod");
         
         int i=0;
         if(lista.size()>0){

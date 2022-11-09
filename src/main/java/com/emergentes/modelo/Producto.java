@@ -1,16 +1,18 @@
 
 package com.emergentes.modelo;
 
-public class Persona {
+public class Producto {
     private int id;
     private String descripcion;
     private int cantidad;
+    private String categoria;
     private double precio;
 
-    public Persona() {
+    public Producto() {
         this.id=0;
         this.descripcion="";
         this.cantidad=0;
+        this.categoria="";
         this.precio=0;
         
         
@@ -48,4 +50,12 @@ public class Persona {
         this.precio = precio;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+       
 }

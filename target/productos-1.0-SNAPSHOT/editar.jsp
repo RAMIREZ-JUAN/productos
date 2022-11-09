@@ -1,6 +1,6 @@
-<%@page import="com.emergentes.modelo.Persona"%>
+<%@page import="com.emergentes.modelo.Producto"%>
 <%
-    Persona item=(Persona)request.getAttribute("miPersona");
+    Producto item=(Producto)request.getAttribute("miProducto");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1><%=(item.getId()==0)? "Nuevo registro":"Editar registro" %></h1>
+        <h1><%=(item.getId()==0)? "Nuevo producto":"Editar producto" %></h1>
         <form action="MainController" method="post">
             <input type="hidden" name="id" value="<%=item.getId() %>" />
             <table>
@@ -25,6 +25,10 @@
                 <tr>
                     <td>Precio</td>
                     <td><input type="text" name="precio" value="<%=item.getPrecio() %>" /></td>
+                </tr>
+                <tr>
+                    <td>Categoria</td>
+                    <td><input type="text" name="categoria" value="<%=item.getCategoria() %>" /></td>
                 </tr>
                 <tr>
                     <td></td>
